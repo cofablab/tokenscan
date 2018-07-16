@@ -1,0 +1,6 @@
+# Production
+flask
+boto3
+python-dotenv
+requests
+zappa
