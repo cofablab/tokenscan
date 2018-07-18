@@ -2,7 +2,7 @@
 
 # About
 
-Tokenscan is serverless tool to save token transactions and wallet balances to DynamoDB for further data analysis.
+Tokenscan is serverless tool to save Ethereum ERC20 token transactions and wallet balances to DynamoDB for further data analysis.
 
 ## AWS Services
 This tool is using:
@@ -121,6 +121,8 @@ For more commands check [zappa docs](https://github.com/Miserlou/Zappa/blob/mast
 # Contributing
 
 All the contributions are welcome! Please open an issue or send us a pull request.
+
+For more tools visti our [CoFab website](https://cofablab.com/)
 
 # Changelog
 
