@@ -122,9 +122,10 @@ For more commands check [zappa docs](https://github.com/Miserlou/Zappa/blob/mast
 
 All the contributions are welcome! Please open an issue or send us a pull request.
 
-For more tools visti our [CoFab website](https://cofablab.com/)
-
 # Changelog
 
 # 0.1
 - Init version
+
+
+For more tools visit our [CoFab website](https://cofablab.com/)
