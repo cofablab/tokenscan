@@ -128,4 +128,4 @@ All the contributions are welcome! Please open an issue or send us a pull reques
 - Init version
 
 
-For more tools visit our [CoFab website](https://cofablab.com/)
+find more tools like that on [CoFab](https://cofablab.com/)
