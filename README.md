@@ -8,7 +8,7 @@ Tokenscan is serverless tool to save Ethereum ERC20 token transactions and walle
 This tool is using:
 - SQS
 - DynamoDB
-- Lamdba
+- Lambda
 - API Gateway
 
 # Installation and Configuration
@@ -60,46 +60,46 @@ You also need to add values to `config.py` or rename `.env.example` to `.env` an
 
 # Initial Deployments
 
-There are 2 different tools. LIVE is to get real time data of transactions and BACKTRACK is for loading history of transactions.
+There are 2 different tools. LIVE is to get real-time data of transactions and BACKTRACK is for loading history of transactions.
 
-You should first deploy LIVE and then deploy BACKTRACK so you don't loose any transactions.
+You should first deploy LIVE and then deploy BACKTRACK so you don't lose any transactions.
 
 First you need to run a script to generate `zappa_settings.json` file and create DynamoDB tables `TokenTransactions` (WCU: 10, RCU:5) and `WalletAddresses` (WCU: 10, RCU:5) and SQS queues `BlocksToProcessQueue`, `BlocksToProcessQueue`, `WalletBalanceToUpdateQueue`.
 
     $ python setup.py
 
-*Note: If this is your only DynamoDB tables this should be part of free tier (WCU:25, RCU:25) on AWS and it won't cost you any money. You can also always change your RCU and WCU based on you needs.*
+*Note: If this is your only DynamoDB tables this should be part of a free tier (WCU:25, RCU:25) on AWS and it won't cost you any money. You can also always change your RCU and WCU based on your needs.*
 
 ## LIVE
-LIVE lambda is to get real-time transaction data to you DynamoDB table. It will set up a job which will check every minute for last couple of blocks if there were any transaction on this contract address and save transactions and refresh wallet balance of affected wallets to DynamoDB.
+LIVE lambda is to get real-time transaction data to your DynamoDB table. It will set up a job which will check every minute for the last couple of blocks if there were any transaction on this contract address and save transactions and refresh wallet balance of affected wallets to DynamoDB.
 
 To deploy it to AWS all you need to do is run:
 
     $ zappa deploy live
 
-This will create lambda and all events you need to have and you are ready to start saving transaction and wallets data to your DynamoDB.
+This will create lambda and all the events you need to have and you are ready to start saving transaction and wallets data to your DynamoDB.
 
 ## BACKTRACK
-BACKTRACK lamdba is used to get all transaction history from `START_BLOCK` till now. This is used if token already exist and you want to get full transaction and wallet history.
+BACKTRACK lambda is used to get all transaction history from `START_BLOCK` till now. This is used if a token already exists and you want to get full transaction and wallet history.
 
 
 To deploy it to AWS all you need to do is run:
 
     $ zappa deploy backtrack
 
-When lamdba is deployed you need to run:
+When lambda is deployed you need to run:
 
     $ zappa invoke backtrack "backtrack.tasks.run"
 
-This will start processing all transaction history and it can take few hours. To know when it is done you can check SQS (Simple Queue Service) and when all queues has 0 thats mean that there is no more transactions to save in DynamoDB.
+This will start processing all transaction history and it can take a few hours. To know when it is done you can check SQS (Simple Queue Service) and when all queues have 0 that's mean that there are no more transactions to save in DynamoDB.
 
-When all of this is done you can also refresh all balances for wallet addresses, so all wallets has up to date balance
+When all of this is done you can also refresh all balances for wallet addresses, so all wallets have up to date balance
 
     $ zappa invoke backtrack "backtrack.tasks.refresh_wallets"
 
 You can again check SQS to see when this is done.
 
-When everything is done you don't really need this lamdba any more, since LIVE will update DynamoDB tables every minute if there are any transactions so you can undeploy it.
+When everything is done you don't really need this lambda anymore, since LIVE will update DynamoDB tables every minute if there are any transactions so you can undeploy it.
 
     $ zappa undeploy backtrack
 
